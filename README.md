@@ -43,7 +43,7 @@ The authors of that *NYT* analysis [describe how they used the NICS data to esti
 - Enter the psql cli as postgres or a superuser `psql -d firearm_checks`
 - Ensure the data was migrated to the database `SELECT * FROM states;` `SELECT * FROM states WHERE id = 1;`
 - Create a user in postgres `CREATE USER firearm_check_api PASSWORD '<password>';`
-- Grant priveleges to the new user `GRANT SELECT, CREATE, UPDATE, DELETE on states, checks TO firearm_checks_api;` `GRANT SELECT on checks_id_seq, states_id_seq TO firearm_checks_api;`
+- Grant priveleges to the new user `GRANT SELECT, INSERT, UPDATE, DELETE on states, checks TO firearm_checks_api;` `GRANT USAGE on checks_id_seq, states_id_seq TO firearm_checks_api;`
 - Install NPM dependencies `npm install`
 - Rename .env.template to .env and add the port number and a valid connection string `DATABASE_URLPORT=3000`
 `DATABASE_URL=postgres://firearm_checks_api:firearm_checks_api@localhost:5432/firearm_checks`

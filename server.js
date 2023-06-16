@@ -57,7 +57,20 @@ app.get('/checks/:state_abbv/:id', async (req, res) => {
     }
 });
 
+/******** POST ONE CHECK, requires optional body data */
+app.post('/checks',  async (req, res) => {
+    const body = req.body;
+    try {
+        const result = await pool.query('INSERT INTO checks (month_year, state_id, permit, permit_recheck, handgun, long_gun, other, multiple, admin, prepawn_handgun, prepawn_long_gun, prepawn_other, redemption_handgun, redemption_long_gun, redemption_other, returned_handgun, returned_long_gun, returned_other, rentals_handgun, rentals_long_gun, private_sale_handgun, private_sale_long_gun, private_sale_other, return_to_seller_handgun,return_to_seller_long_gun, return_to_seller_other, totals) VALUES ($1, (SELECT id FROM states WHERE name = $2), $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27) RETURNING *', [body.month_year, body.name, body.permit, body.permit_recheck, body.handgun, body.long_gun, body.other, body.multiple, body.admin, body.prepawn_handgun, body.prepawn_long_gun, body.prepawn_other, body.redemption_handgun, body.redemption_long_gun, body.redemption_other, body.returned_handgun, body.returned_long_gun, body.returned_other, body.rentals_handgun, body.rentals_long_gun, body.private_sale_handgun, body.private_sale_long_gun, body.private_sale_other, body.return_to_seller_handgun, body.return_to_seller_long_gun, body.return_to_seller_other, body.totals]);
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
 
 app.listen(process.env.PORT, () => {
     console.log(`Server started, listening on port: ${process.env.PORT}`);
 })
+
