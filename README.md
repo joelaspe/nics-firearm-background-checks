@@ -2,7 +2,7 @@
 NICS FBI Firearm Background Check database, API server and front-end application
 
 # Data Source
-The ultimate source of this data is from the [FBI's National Instant Criminal Background Check System](https://www.fbi.gov/how-we-can-help-you/more-fbi-services-and-information/nics). The
+The ultimate source of this data is from the [FBI's National Instant Criminal Background Check System](https://www.fbi.gov/how-we-can-help-you/more-fbi-services-and-information/nics).
 > Mandated by the Brady Handgun Violence Prevention Act of 1993 and launched by the FBI on November 30, 1998, NICS is used by Federal Firearms Licensees (FFLs) to instantly determine whether a prospective buyer is eligible to buy firearms or explosives. Before ringing up the sale, cashiers call in a check to the FBI or to other designated agencies to ensure that each customer does not have a criminal record or isn’t otherwise ineligible to make a purchase. More than 100 million such checks have been made in the last decade, leading to more than 700,000 denials.
 The FBI provides data on the number of firearm checks by month, state, and type — [but as a PDF](https://www.fbi.gov/file-repository/nics_firearm_checks_-_month_year_by_state_type.pdf/view). The data in this GitHub repository comes from the [BuzzFeedNews nics-firearm-background-checks](https://github.com/BuzzFeedNews/nics-firearm-background-checks/) which downloads that PDF, parses it, and produces a spreadsheet/CSV of the data. Using the migration.sql and seed.sql files in this repository, the data is seeded into a postgreSQL database to be used by the API server and the front-end application.
 
@@ -34,18 +34,18 @@ The authors of that *NYT* analysis [describe how they used the NICS data to esti
 
 ## Building the full-stack application
 
--Install [nodeJS](https://nodejs.org) and [Node Package Manager (NPM)](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) onto you machine
--Fork and clone this repository onto your local machine `git clone <repository_url>`
--Install postgreSQL database, and create a database called firearm_checks
--Run `psql -d firearm_checks -f ./db/migration.sql`
--update the ./db/seed.sql file for the most recent data. (It is current up to May 2023 currently) Use the ./db/seed_maker.ods file in LibreOffice Calc to generate new INSERT statements. This may require some manual manipulation and time
--Run `psql -d firearm_checks -f ./db/seed.sql` to seed the database
--Enter the psql cli as postgres or a superuser `psql -d firearm_checks`
--Ensure the data was migrated to the database `SELECT * FROM states;` `SELECT * FROM states WHERE id = 1;`
--Create a user in postgres `CREATE USER firearm_check_api PASSWORD '<password>';`
--Grant priveleges to the new user `GRANT SELECT, CREATE, UPDATE, DELETE on states, checks TO firearm_checks_api;` `GRANT SELECT on checks_id_seq, states_id_seq TO firearm_checks_api;`
--Install NPM dependencies `npm install`
--Run the server
+- Install [nodeJS](https://nodejs.org) and [Node Package Manager (NPM)](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) onto you machine
+- Fork and clone this repository onto your local machine `git clone <repository_url>`
+- Install postgreSQL database, and create a database called firearm_checks
+- Run `psql -d firearm_checks -f ./db/migration.sql`
+- update the ./db/seed.sql file for the most recent data. (It is current up to May 2023 currently) Use the ./db/seed_maker.ods file in LibreOffice Calc to generate new INSERT statements. This may require some manual manipulation and time
+- Run `psql -d firearm_checks -f ./db/seed.sql` to seed the database
+- Enter the psql cli as postgres or a superuser `psql -d firearm_checks`
+- Ensure the data was migrated to the database `SELECT * FROM states;` `SELECT * FROM states WHERE id = 1;`
+- Create a user in postgres `CREATE USER firearm_check_api PASSWORD '<password>';`
+- Grant priveleges to the new user `GRANT SELECT, CREATE, UPDATE, DELETE on states, checks TO firearm_checks_api;` `GRANT SELECT on checks_id_seq, states_id_seq TO firearm_checks_api;`
+- Install NPM dependencies `npm install`
+- Run the server
 
 ## Questions / Feedback / Improvements
 
