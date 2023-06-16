@@ -4,6 +4,8 @@
   "description": "Database creation, API server, and front-end application to update and query FBI NICS Firearm Background Check data",
   "main": "server.js",
   "scripts": {
+    "server": "nodemon server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
