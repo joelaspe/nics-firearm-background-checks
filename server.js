@@ -103,7 +103,7 @@ function checkValidInput(input) {
         return false;
     }
     const validKeys = ["month_year", "name", "permit", "permit_recheck", "handgun", "long_gun", "other", "multiple", "admin", "prepawn_handgun", "prepawn_long_gun", "prepawn_other", "redemption_handgun", "redemption_long_gun", "redemption_other", "returned_handgun", "returned_long_gun", "returned_other", "rentals_handgun", "rentals_long_gun", "private_sale_handgun", "private_sale_long_gun", "private_sale_other", "return_to_seller_handgun","return_to_seller_long_gun", "return_to_seller_other","totals"];
-
+    const validStates = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Mariana Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota','Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico','New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Islands', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
     for (elem in input) {
         // check if keyname of input is a valid one
         if(!validKeys.includes(elem))
@@ -118,6 +118,12 @@ function checkValidInput(input) {
             // all other entries must be integers
         } else if(isNaN(parseInt(input[elem]))) {
                 return false;
+        }
+        // check if state name is a valid one from the list
+        if (elem === 'name') {
+            if(!validStates.includes(input[elem])) {
+                return false;
+            }
         }
     }
     return true;
