@@ -71,7 +71,9 @@ app.get('/checks/:state_abbv/:id', async (req, res) => {
 /******** POST ONE CHECK, requires optional body data */
 app.post('/checks',  async (req, res) => {
     const body = req.body;
-     if(!checkValidInput(body)) {
+    // check if submitted body data meets formatting requirements and then 
+    // also state name and month_year are bare minimum required check they exist in the body
+    if(!checkValidInput(body) || body['name'] === undefined || body['name'] === '' || body['month_year'] === undefined || body['month_year'] === '') {
         res.status(400).send(BAD_DATA_ERROR);
     }
     else {
