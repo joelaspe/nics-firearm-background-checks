@@ -46,15 +46,14 @@ app.get('/checks/:state_abbv', async (req, res) => {
     }
 });
 
-/****** GET ONE CHECK BY ID, requires state abbreviation */
-app.get('/checks/:state_abbv/:id', async (req, res) => {
-    const { state_abbv } = req.params;
+/****** GET ONE CHECK BY ID, requires id */
+app.get('/check/:id', async (req, res) => {
     const { id } = req.params;
     if(isNaN(parseInt(id))) {
         res.status(400).send(BAD_ABBREVIATION_AND_ID)
     } else {
         try {
-            const result = await pool.query('SELECT states.name, states.abbreviation, checks.id, checks.month_year, checks.permit, checks.permit_recheck, checks.handgun, checks.long_gun, checks.other, checks.multiple, checks.admin, checks.prepawn_handgun, checks.prepawn_long_gun, checks.prepawn_other, checks.redemption_handgun, checks.redemption_long_gun, checks.redemption_other, checks.returned_handgun, checks.returned_long_gun, checks.returned_other, checks.rentals_handgun, checks.rentals_long_gun, checks.private_sale_handgun, checks.private_sale_long_gun, checks.private_sale_other, checks.return_to_seller_handgun, checks.return_to_seller_long_gun, checks.return_to_seller_other, checks.totals FROM checks INNER JOIN states ON checks.state_id = states.id WHERE (states.abbreviation = $1) AND (checks.id = $2)', [state_abbv, id]);
+            const result = await pool.query('SELECT states.name, states.abbreviation, checks.id, checks.month_year, checks.permit, checks.permit_recheck, checks.handgun, checks.long_gun, checks.other, checks.multiple, checks.admin, checks.prepawn_handgun, checks.prepawn_long_gun, checks.prepawn_other, checks.redemption_handgun, checks.redemption_long_gun, checks.redemption_other, checks.returned_handgun, checks.returned_long_gun, checks.returned_other, checks.rentals_handgun, checks.rentals_long_gun, checks.private_sale_handgun, checks.private_sale_long_gun, checks.private_sale_other, checks.return_to_seller_handgun, checks.return_to_seller_long_gun, checks.return_to_seller_other, checks.totals FROM checks INNER JOIN states ON checks.state_id = states.id WHERE checks.id = $1', [id]);
             if(result.rowCount < 1) {
                 res.status(404).send(BAD_ABBREVIATION_AND_ID);
             } else {
