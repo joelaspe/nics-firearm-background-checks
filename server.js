@@ -1,4 +1,5 @@
 const BAD_DATA_ERROR = 'Bad Data, unable to create record. Ensure data is in json format. Example: {"month_year":"2023-06-01", "name":"Alabama", "permit":11111, "permit_recheck":2222, "handgun":3333, "long_gun":4444, "other":5555, "multiple":6666, "admin":7777, "prepawn_handgun":8888, "prepawn_long_gun":9999, "prepawn_other":12323, "redemption_handgun":3445, "redemption_long_gun":445667, "redemption_other":55678, "returned_handgun":78999, "returned_long_gun":11111, "returned_other":22222, "rentals_handgun":33333, "rentals_long_gun":44444, "private_sale_handgun":55555, "private_sale_long_gun":66666, "private_sale_other":77777, "return_to_seller_handgun":88888,"return_to_seller_long_gun":9999, "return_to_seller_other":12345,"totals":999999}';
+const BAD_UPDATE_DATA_ERROR = 'Bad Data, unable to create record. Ensure data is in json format. Example: {"month_year":"2023-06-01", "permit":11111, "permit_recheck":2222, "handgun":3333, "long_gun":4444, "other":5555, "multiple":6666, "admin":7777, "prepawn_handgun":8888, "prepawn_long_gun":9999, "prepawn_other":12323, "redemption_handgun":3445, "redemption_long_gun":445667, "totals":999999}';
 const BAD_ABBREVIATION = "Data Not Found. Check path is a valid state abbreviation. Acceptable entries are: al, ak, az, ar, ca, co, ct, de, dc, fl, ga, gu, hi, id, il, in, ia, ks, ky, la, me, mi, md, ma, mi, mn, ms, mo, mt, ne, nv, nh, nj, nm, ny, nc, nd, oh, ok, or, pa, pr, ri, sc, sd, tn, tx, ut, vt, vi, va, wa, wv, wi, wy";
 const BAD_ID = 'Bad Data. Ensure ID is a valid number and corresponds to an existing record.'; 
 
@@ -11,7 +12,7 @@ dotenv.config();
 const { Pool } = require('pg');
 // create a new pool instance
 const pool = new Pool ({ connectionString: process.env.DATABASE_URL });
-
+const format = require('pg-format');
 
 app.use(express.json()); // middleware to allow us to read JSON body from HTTP requests
 
@@ -87,6 +88,51 @@ app.post('/checks',  async (req, res) => {
         }
     }
 });
+
+/******** UPDATE ONE CHECK, requires an id on the route and optional body data  ******/
+app.put('/checks/:id', async (req, res) => {
+    const { id } = req.params;
+    const body = req.body;
+    // check if submitted body data meets formatting requirements. state name and month_year is NOT required as the record should already exist
+    
+    if(!checkValidInput(body)) {
+        res.status(400).send(BAD_UPDATE_DATA_ERROR);
+    } else {
+        try { 
+            let sets =[];
+            for(let key in body) {
+                // edge case: check for state name, convert to state_id instead
+                if (key === 'name') {
+                    // lookup the state_id based on the name
+                    const result = await pool.query('SELECT id FROM states WHERE name = $1', [body[key]]);
+                    if(result.rows.length != 1) {
+                        res.send(404).send(BAD_DATA_ERROR);
+                        return;
+                    } else {
+                        sets.push(format('state_id = %L', result.rows[0].id))
+                    }
+                } else {
+                    // default case if not state_id
+                    sets.push(format('%I = %L', key, body[key]))
+                }
+                
+            }
+            let setStrings = sets.join(',');
+            const SQLString = format('UPDATE checks SET %s WHERE id = %L RETURNING *', setStrings, id);
+            const result = await pool.query(SQLString);
+            if(result.rows.length < 1) {
+                res.status(404).send(BAD_ID);
+            } else {
+                res.status(200).json(result.rows[0]);
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        }
+    }
+    
+});
+
 
 /******** DELETE ONE CHECK, requires just an id on the route */
 app.delete('/checks/:id', async (req, res) => {
