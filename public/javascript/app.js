@@ -7,12 +7,14 @@ function generateMonthTable(data) {
     const handgun = [];
     const long_gun = [];
     const totals = [];
+    const abbreviations = [];
     for(let i = 0; i < data.length; i++) {
         states.push(data[i].name);
         permits.push(data[i].permit);
         handgun.push(data[i].handgun);
         long_gun.push(data[i].long_gun);
         totals.push(data[i].totals);
+        abbreviations.push(data[i].abbreviation);
     }
   
     const table = document.querySelector("#checks-table");
@@ -29,18 +31,11 @@ function generateMonthTable(data) {
     }
     tableBody.appendChild(tableHead);
 
-    // Generate rows
-    //const states = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Mariana Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota','Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico','New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Islands', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
-    //const permits = [10733, 185, 11852, 2697];
-    //const handgun = [17565, 3115, 16609, 6456];
-    //const long_gun = [9949, 2346, 8057, 4327];
-    //const totals = [43491, 6420, 42092, 15024];
-    
-    
-
+    // generate rows
     for(let i = 0; i < states.length; i++) {
         const tr = document.createElement("tr");
-        
+        tr.classList.add(`tr-${abbreviations[i]}`);
+
         const cellState = document.createElement("td")
         const cellTextStates = document.createTextNode(states[i]);
         cellState.appendChild(cellTextStates);
