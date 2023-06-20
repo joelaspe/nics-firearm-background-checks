@@ -12,6 +12,8 @@ The original PDF contains important notes and caveats. It's a good idea to read 
 
 > These statistics represent the number of firearm background checks initiated through the NICS. They do not represent the number of firearms sold. Based on varying state laws and purchase scenarios, __a one-to-one correlation cannot be made between a firearm background check and a firearm sale__.
 
+When a person tries to buy a firearm, the seller, known as a Federal Firearms Licensee (FFL), contacts NICS electronically or by phone. The prospective buyer fills out the [ATF form](https://www.atf.gov/firearms/atf-form-4473-firearms-transaction-record-revisions), and the FFL relays that information to the NICS. The NICS staff performs a background check on the buyer. That background check verifies the buyer does not have a criminal record or isn't otherwise ineligible to purchase or own a firearm. Since launching in 1998, more than 300 million checks have been done, leading to more than 1.5 million denials.
+
 A bit more background, [from *The Trace*](http://www.thetrace.org/2015/11/black-friday-gun-sales-background-checks/) in 2015:
 
 > The FBI’s background check numbers come with caveats: As seen in the late February-early March 2014 bubble, many checks are for concealed carry permits, not actual gun sales. Kentucky runs a new check on each concealed carry license holder each month. And of course, the FBI’s numbers don’t include private gun sales, many of which do not require a background check. [...] Despite those vagaries, the FBI’s NICS numbers are widely accepted as the best proxy for total gun sales in a given time period.
@@ -32,7 +34,7 @@ The authors of that *NYT* analysis [describe how they used the NICS data to esti
 
 - [NICS Participation Map](https://www.fbi.gov/file-repository/nics-participation-map.pdf/view), which "depicts each state's level of participation with the NICS."
 
-## Building the full-stack application
+# Building the full-stack application
 
 - Install [nodeJS](https://nodejs.org) and [Node Package Manager (NPM)](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) onto you machine
 - Fork and clone this repository onto your local machine `git clone <repository_url>`
@@ -42,16 +44,30 @@ The authors of that *NYT* analysis [describe how they used the NICS data to esti
 - Run `psql -d firearm_checks -f ./db/seed.sql` to seed the database
 - Enter the psql cli as postgres or a superuser `psql -d firearm_checks`
 - Ensure the data was migrated to the database `SELECT * FROM states;` `SELECT * FROM states WHERE id = 1;`
-- Create a user in postgres `CREATE USER firearm_check_api PASSWORD '<password>';`
-- Grant priveleges to the new user `GRANT SELECT, INSERT, UPDATE, DELETE on states, checks TO firearm_checks_api;` `GRANT USAGE on checks_id_seq, states_id_seq TO firearm_checks_api;`
+- Create a user in postgres 
+  - `CREATE USER firearm_check_api PASSWORD '<password>';`
+- Grant priveleges to the new user 
+  - `GRANT SELECT, INSERT, UPDATE, DELETE on states, checks TO firearm_checks_api;` 
+  - `GRANT USAGE on checks_id_seq, states_id_seq TO firearm_checks_api;`
 - Install NPM dependencies `npm install`
-- Rename .env.template to .env and add the port number and a valid connection string `DATABASE_URLPORT=3000`
-`DATABASE_URL=postgres://firearm_checks_api:firearm_checks_api@localhost:5432/firearm_checks`
+- Rename .env.template to .env and add the port number and a valid connection string 
+  - `PORT=3000`
+  - `DATABASE_URL=postgres://firearm_checks_api:firearm_checks_api@localhost:5432/firearm_checks`
+- Run the server `npm run start`
+## Deploying to Render
+- Ensure the project is pushed to your Github account. 
+- Create a [Render](https://www.render.com) account
+- From the dashboard, create a new PostgreSQL instance. Copy both the External Database URL and the PSQL Command
+- From the dashboard, create a new Web Service. Connect your Github repository to the new Render Web Service. Set build command `npm install`, start command `npm start` Make sure to enter an environment variable with SSL flag set at the end 
+  - key: `DATABASE_URL` Value: `<copied external database URL>?ssl=true` 
+- Back on your local machine terminal, go to the db folder `cd fb` and copy the PSQL command from Render PostgreSQL. You should now be connected to the remote database, and see the database name on the PSQL terminal. `firearm_checks=>`
+- Migrate and seed the database (could take a while)
+  - `\i migration.sql`
+  - `\i seed.sql`
+  - Test the seeding: `SELECT permit, month_year FROM checks WHERE state_id = 1;`
 
-- Run the server
 
-
-## Questions / Feedback / Improvements
+# Questions / Feedback / Improvements
 
 Email me at joe.laspe@gmail.com
 

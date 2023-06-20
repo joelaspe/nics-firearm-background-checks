@@ -16,7 +16,7 @@ const format = require('pg-format');
 
 app.use(express.json()); // middleware to allow us to read JSON body from HTTP requests
 
-
+app.use(express.static('public'));
 
 /************** ROUTES  *****************/
 
