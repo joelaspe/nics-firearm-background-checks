@@ -4,6 +4,7 @@ const BAD_ABBREVIATION = "Data Not Found. Check path is a valid state abbreviati
 const BAD_ID = 'Bad Data. Ensure ID is a valid number and corresponds to an existing record.'; 
 
 const express = require('express');
+const cors = require('cors');
 const app = express(); // gives us access to methods and properties within express module
 
 const dotenv = require('dotenv');
@@ -13,6 +14,8 @@ const { Pool } = require('pg');
 // create a new pool instance
 const pool = new Pool ({ connectionString: process.env.DATABASE_URL });
 const format = require('pg-format');
+
+app.use(cors()); // middleware to enable CORS when deployed to Render
 
 app.use(express.json()); // middleware to allow us to read JSON body from HTTP requests
 
