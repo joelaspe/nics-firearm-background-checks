@@ -65,7 +65,7 @@ The authors of that *NYT* analysis [describe how they used the NICS data to esti
   - `\i migration.sql`
   - `\i seed.sql`
   - Test the seeding: `SELECT permit, month_year FROM checks WHERE state_id = 1;`
-
+- Test the deployment worked, navigate to the homepage provided by Render.
 
 # Questions / Feedback / Improvements
 

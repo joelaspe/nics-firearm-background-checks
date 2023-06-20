@@ -3,6 +3,12 @@ const API_URL = 'https://nics-firearm-background-check-service.onrender.com/';
 
 /**** generateMonthTable() - Makes a table for defined state, all available records */
 function generateStateTable(data) {
+    
+    const table = document.querySelector("#checks-table");
+    const tableBody = document.querySelector("#checks-table-body");
+    const containerH3 = document.querySelector("#container-title");
+    containerH3.textContent = data[0].name + " Firearm Background Checks - All records";
+
     const month_years = [];
     const permits = [];
     const handgun = [];
@@ -18,9 +24,7 @@ function generateStateTable(data) {
         long_gun.push(data[i].long_gun);
         totals.push(data[i].totals);
     }
-    const table = document.querySelector("#checks-table");
-    const tableBody = document.querySelector("#checks-table-body");
-    
+       
     // create table header
     const headers = ['Month/Year', 'Permits', 'Handgun Purchase', 'Long Gun Purchase', 'Total Checks'];
     const tableHead = document.createElement("tr");
@@ -85,6 +89,12 @@ async function getStateData(e) {
 
 /*** generateMonthTable() - Makes a table of current month for all 50 states and territories */
 function generateMonthTable(data) {
+    
+    const table = document.querySelector("#checks-table");
+    const tableBody = document.querySelector("#checks-table-body");
+    const containerH3 = document.querySelector("#container-title");
+    containerH3.textContent = 'May 2023 Firearm Background Checks - All U.S. States and Territories';
+    
     const states = [];
     const permits = [];
     const handgun = [];
@@ -100,9 +110,6 @@ function generateMonthTable(data) {
         abbreviations.push(data[i].abbreviation);
     }
   
-    const table = document.querySelector("#checks-table");
-    const tableBody = document.querySelector("#checks-table-body");
-    
     // create table header
     const headers = ['State', 'Permits', 'Handgun Purchase', 'Long Gun Purchase', 'Total Checks'];
     const tableHead = document.createElement("tr");
