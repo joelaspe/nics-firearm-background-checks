@@ -4,17 +4,21 @@ const API_URL = 'https://nics-firearm-background-check-service.onrender.com/';
 /**** generateMonthTable() - Makes a table for defined state, all available records */
 function generateStateTable(data) {
     
+    const abbreviation = [data[0].abbreviation]; 
+    const stateImage = document.querySelector("#state-image");
+    stateImage.src = `images/maps/${abbreviation}.jpg`;
+    stateImage.alt = `Outline of ${data[0].name}`;
     const table = document.querySelector("#checks-table");
     const tableBody = document.querySelector("#checks-table-body");
     const containerH3 = document.querySelector("#container-title");
     containerH3.textContent = data[0].name + " Firearm Background Checks - All records";
-
+    
     const month_years = [];
     const permits = [];
     const handgun = [];
     const long_gun = [];
     const totals = [];
-    const abbreviation = [data[0].abbreviation]; // all data is from same state so don't need to include in the loop
+
     // parse the data into usable arrays
     for(let i = 0; i < data.length; i++) {
         //month_year only taking the month_year from the data, slice off the end (day and timestamp info);
