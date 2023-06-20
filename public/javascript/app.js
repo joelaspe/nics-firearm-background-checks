@@ -1,23 +1,61 @@
 const API_URL = 'https://nics-firearm-background-check-service.onrender.com/';
+let lastStatePage;
 
 
-/**** generateMonthTable() - Makes a table for defined state, all available records */
+
+function generateCheckForm(data) {
+    const stateBtn = document.querySelector("#cancel-btn");
+    stateBtn.style.display = "inline-block";
+    stateBtn.onclick = getStateData;
+    console.log(data);
+
+
+
+}
+
+
+/****** editCheck()  entry function that queries API for info on a specific check record then generates a form to edit the data (and delete) */
+async function editCheck(e) {
+    let tr = e.target;
+    // ensure we are working with the TR to get the state abbreviation from the class name
+    if(tr.nodeName === 'TD') {
+        tr = tr.parentNode;
+    }
+    // parse out the check id from the id name
+    const checkId = tr.id.slice(6);
+    const apiString = API_URL + 'check/' + checkId + '/';
+    console.log(apiString);
+    const response = await fetch(apiString);
+    const data = await response.json();
+    generateCheckForm(data);
+}
+
+
+/**** generateStateTable() - Makes a table for defined state, all available records */
 function generateStateTable(data) {
     
     const abbreviation = [data[0].abbreviation]; 
     const stateImage = document.querySelector("#state-image");
     stateImage.src = `images/maps/${abbreviation}.jpg`;
     stateImage.alt = `Outline of ${data[0].name}`;
+    
+    const homeBtn = document.querySelector("#home-btn");
+    homeBtn.style.display = "inline-block";
+    const stateBtn = document.querySelector("#cancel-btn");
+    stateBtn.style.display = "none";
+    
     const table = document.querySelector("#checks-table");
     const tableBody = document.querySelector("#checks-table-body");
     const containerH3 = document.querySelector("#container-title");
     containerH3.textContent = data[0].name + " Firearm Background Checks - All records";
+
     
     const month_years = [];
     const permits = [];
     const handgun = [];
     const long_gun = [];
     const totals = [];
+    const ids = [];
 
     // parse the data into usable arrays
     for(let i = 0; i < data.length; i++) {
@@ -27,6 +65,7 @@ function generateStateTable(data) {
         handgun.push(data[i].handgun);
         long_gun.push(data[i].long_gun);
         totals.push(data[i].totals);
+        ids.push(data[i].id);
     }
        
     // create table header
@@ -43,7 +82,7 @@ function generateStateTable(data) {
     // generate rows and cells
     for(let i = 0; i < month_years.length; i++) {
         const tr = document.createElement("tr");
-        tr.id = `tr-${abbreviation}-${month_years[i]}`;
+        tr.id = `tr-${abbreviation}-${ids[i]}`;
         tr.classList.add(`tr-state`);
 
         const cellState = document.createElement("td")
@@ -70,16 +109,27 @@ function generateStateTable(data) {
         const cellTextTotals = document.createTextNode(totals[i]);
         cellTotals.appendChild(cellTextTotals);
         tr.appendChild(cellTotals);
+        tr.addEventListener('click', editCheck);
         tableBody.appendChild(tr);
     }
 }
 
 /**** Grabs individual state data from API when user clicks on the table row */
 async function getStateData(e) {
-    let tr = e.target;
+    let tr;
+    // required for cancel button functionality
+    if(e.target.nodeName === 'BUTTON')
+    {
+        console.log('Detected that cancel button was pushed');
+        tr = lastStatePage;
+
+    } else {
+        tr = e.target;
+        lastStatePage = tr; 
+    }
     // ensure we are working with the TR to get the state abbreviation from the class name
     if(tr.nodeName === 'TD') {
-        tr = tr.parentNode;
+        tr = tr.parentNode;    
     }
     // parse out the abbreviation from the id name
     const abbreviation = tr.id.slice(3);
@@ -87,13 +137,21 @@ async function getStateData(e) {
     console.log(apiString);
     const response = await fetch(apiString);
     const data = await response.json();
-    console.log(data);
     generateStateTable(data);
 }
 
 /*** generateMonthTable() - Makes a table of current month for all 50 states and territories */
 function generateMonthTable(data) {
     
+    const stateImage = document.querySelector("#state-image");
+    stateImage.src = 'images/maps/united-states-map.jpeg';
+    stateImage.alt = `Outline of U.S. Map`;
+
+    const homeBtn = document.querySelector("#home-btn");
+    homeBtn.style.display = "none";
+    const stateBtn = document.querySelector("#cancel-btn");
+    stateBtn.style.display = "none";
+
     const table = document.querySelector("#checks-table");
     const tableBody = document.querySelector("#checks-table-body");
     const containerH3 = document.querySelector("#container-title");
@@ -164,13 +222,14 @@ function generateMonthTable(data) {
 
 async function getHomePageData() {
     const apiString = API_URL + 'checks/';
-    console.log(apiString);
     const response = await fetch(apiString);
     const data = await response.json();
   
     generateMonthTable(data);    
 }
 
+const homeBtn = document.querySelector("#home-btn");
+homeBtn.onclick = getHomePageData;
 getHomePageData();
 
 
