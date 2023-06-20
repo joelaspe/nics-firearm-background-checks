@@ -1,5 +1,7 @@
+const API_URL = 'https://nics-firearm-background-check-service.onrender.com/';
+
 /*** generateMonthTable() - Makes a table of current month for all 50 states and territories */
-function generateMonthTable() {
+function generateMonthTable(data) {
     const table = document.querySelector("#checks-table");
     const tableBody = document.querySelector("#checks-table-body");
     
@@ -20,7 +22,9 @@ function generateMonthTable() {
     const handgun = [17565, 3115, 16609, 6456];
     const long_gun = [9949, 2346, 8057, 4327];
     const totals = [43491, 6420, 42092, 15024];
-        
+    
+    
+
     for(let i = 0; i < states.length; i++) {
         const tr = document.createElement("tr");
         
@@ -52,6 +56,14 @@ function generateMonthTable() {
     }
 }
 
-generateMonthTable();
+async function getHomePageData() {
+    const apiString = 'API_URL' + '/checks/';
+    const response = await fetch(apiString);
+    const data = await response.json();
+    generateMonthTable(data);    
+}
+
+getHomePageData();
+
 
 
