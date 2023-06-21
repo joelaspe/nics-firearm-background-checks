@@ -1,16 +1,98 @@
 const API_URL = 'https://nics-firearm-background-check-service.onrender.com/';
-let lastStatePage;
+let lastStatePage; // used for the cancel button, allows us to return back to the state page when hitting the button
 
+async function putData() {
+    const inputId = document.querySelector("#input-id");
+    const inputMonthYear = document.querySelector("#input-month-year");
+    const inputPermits = document.querySelector("#input-permits");
+    const inputHandgun = document.querySelector("#input-handgun");
+    const inputLongGun = document.querySelector("#input-long-gun");
+    const inputTotals = document.querySelector("#input-totals");
+    const requestOptions =  {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify( { "month_year": inputMonthYear.value, "permit": inputPermits.value, "handgun": inputHandgun.value, "long_gun": inputLongGun.value, "totals": inputTotals.value })
+    }
+    const apiString = API_URL + 'checks/' + inputId.value + '/';
+    const response = await fetch(apiString, requestOptions);
+    const data = await response.json();
+    
+    const tableBody = document.querySelector("#checks-table-body");
+    const successMsg = document.createElement("h2");
+    successMsg.classList.add("success-msg");
+    successMsg.id = "success-msg";
+    successMsg.textContent = 'Record updated'
+    tableBody.appendChild(successMsg);
+}
 
-
+/****** generateCheckForm creates the form for updating a record */
 function generateCheckForm(data) {
-    const stateBtn = document.querySelector("#cancel-btn");
-    stateBtn.style.display = "inline-block";
-    stateBtn.onclick = getStateData;
+    const cancelBtn = document.querySelector("#cancel-btn");
+    cancelBtn.style.display = "inline-block";
+    cancelBtn.onclick = getStateData;
+    const submitBtn = document.querySelector("#submit-btn");
+    submitBtn.style.display = "inline-block";
+    submitBtn.onclick = putData;
+    
     console.log(data);
+    lastState = data.name;
+    // clear the table
+    const tableBody = document.querySelector("#checks-table-body");
+    tableBody.replaceChildren();
 
+    const inputId = document.createElement("input");
+    inputId.defaultValue = data.id;
+    inputId.id = "input-id";
+    const labelId = document.createElement("label");
+    labelId.htmlFor = "input-id";
+    labelId.textContent = "Record #";
+    tableBody.appendChild(labelId);
+    tableBody.appendChild(inputId);
 
+    const inputMonthYear = document.createElement("input");
+    inputMonthYear.defaultValue = data.month_year;
+    inputMonthYear.id = "input-month-year";
+    const labelMonthYear = document.createElement("label");
+    labelMonthYear.htmlFor = "input-month-year";
+    labelMonthYear.textContent = "Month/Year";
+    tableBody.appendChild(labelMonthYear);
+    tableBody.appendChild(inputMonthYear);
 
+    const inputPermits = document.createElement("input");
+    inputPermits.defaultValue = data.permit;
+    inputPermits.id = "input-permits";
+    const labelPermits = document.createElement("label");
+    labelPermits.htmlFor = "input-permits";
+    labelPermits.textContent = "Permits";
+    tableBody.appendChild(labelPermits);
+    tableBody.appendChild(inputPermits);
+
+    const inputHandgun = document.createElement("input");
+    inputHandgun.defaultValue = data.handgun;
+    inputHandgun.id = "input-handgun";
+    const labelHandgun = document.createElement("label");
+    labelHandgun.htmlFor = "input-handgun";
+    labelHandgun.textContent = "Handguns"
+    tableBody.appendChild(labelHandgun);
+    tableBody.appendChild(inputHandgun);
+
+    const inputLongGun = document.createElement("input");
+    inputLongGun.defaultValue = data.long_gun;
+    inputLongGun.id = "input-long-gun";
+    const labelLongGun = document.createElement("label");
+    labelLongGun.htmlFor = "input-long-gun";
+    labelLongGun.textContent = "Long Guns";
+    tableBody.appendChild(labelLongGun);
+    tableBody.appendChild(inputLongGun);
+    
+    const inputTotals = document.createElement("input");
+    inputTotals.defaultValue = data.totals;
+    inputTotals.id = "input-totals";
+    const labelTotals = document.createElement("label");
+    labelTotals.htmlFor = "input-totals";
+    labelTotals.textContent = "Totals";
+    tableBody.appendChild(labelTotals);
+    tableBody.appendChild(inputTotals);
 }
 
 
@@ -41,10 +123,11 @@ function generateStateTable(data) {
     
     const homeBtn = document.querySelector("#home-btn");
     homeBtn.style.display = "inline-block";
-    const stateBtn = document.querySelector("#cancel-btn");
-    stateBtn.style.display = "none";
+    const cancelBtn = document.querySelector("#cancel-btn");
+    cancelBtn.style.display = "none";
+    const submitBtn = document.querySelector("#submit-btn");
+    submitBtn.style.display = "none";
     
-    const table = document.querySelector("#checks-table");
     const tableBody = document.querySelector("#checks-table-body");
     const containerH3 = document.querySelector("#container-title");
     containerH3.textContent = data[0].name + " Firearm Background Checks - All records";
@@ -120,9 +203,7 @@ async function getStateData(e) {
     // required for cancel button functionality
     if(e.target.nodeName === 'BUTTON')
     {
-        console.log('Detected that cancel button was pushed');
         tr = lastStatePage;
-
     } else {
         tr = e.target;
         lastStatePage = tr; 
@@ -149,10 +230,11 @@ function generateMonthTable(data) {
 
     const homeBtn = document.querySelector("#home-btn");
     homeBtn.style.display = "none";
-    const stateBtn = document.querySelector("#cancel-btn");
-    stateBtn.style.display = "none";
+    const cancelBtn = document.querySelector("#cancel-btn");
+    cancelBtn.style.display = "none";
+    const submitBtn = document.querySelector("#submit-btn");
+    submitBtn.style.display = "none";
 
-    const table = document.querySelector("#checks-table");
     const tableBody = document.querySelector("#checks-table-body");
     const containerH3 = document.querySelector("#container-title");
     containerH3.textContent = 'May 2023 Firearm Background Checks - All U.S. States and Territories';
