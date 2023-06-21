@@ -72,6 +72,7 @@ app.get('/check/:id', async (req, res) => {
    
 });
 
+//TODO: Use format here to prevent SQL injection
 /******** POST ONE CHECK, requires optional body data */
 app.post('/checks',  async (req, res) => {
     const body = req.body;
