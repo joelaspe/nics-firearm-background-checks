@@ -152,7 +152,6 @@ p, ul {
   position: relative;
   transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
   user-select: none;
-  -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: middle;
   white-space: nowrap;
@@ -187,9 +186,6 @@ p, ul {
   display: none;
 }
 
-.nav-btn:-webkit-details-marker {
-  display: none;
-}
 
 
 /************ Input Elements ***************/

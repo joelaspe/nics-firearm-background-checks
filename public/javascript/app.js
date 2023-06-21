@@ -147,6 +147,10 @@ async function deleteRecord() {
 
 /****** generateCheckForm creates the form for updating a record */
 function generateCheckForm(data) {
+    
+    const containerH3 = document.querySelector("#container-title");
+    containerH3.textContent = data.name + " Firearm Background Checks - Record # " + data.id;
+    
     const homeBtn = document.querySelector("#home-btn");
     homeBtn.style.display = "none";
     const newBtn = document.querySelector("#new-btn");
