@@ -75,10 +75,10 @@ table {
 
 .column-b {
     width: 1200px;
-    background-color: #c2c2e6;
     display: flex;
     align-items: center;
     flex-direction: column;
+    background-image: linear-gradient(to right, white, #c2c2e6)
 }
 
 .container-title {
