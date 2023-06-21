@@ -119,13 +119,19 @@ tr:nth-child(even) {background-color: #f2ccff};
 
 /***** Paragraphs ********/
 
-.result-container{
+.result-container {
     background-color: #f2e6ff;
 }
 
 p, ul {
     font-family: 'Geologica', sans-serif;
     font-size: 12px;
+}
+
+.success-msg {
+    font-family: 'Geologica', sans-serif;
+    font-size: 28px;
+    color: #4747d1;
 }
 
 
@@ -148,7 +154,7 @@ p, ul {
   font-weight: 500;
   line-height: 20px;
   list-style: none;
-  padding: 6px 16px;
+  padding: 6px 26px;
   position: relative;
   transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
   user-select: none;
@@ -195,7 +201,7 @@ p, ul {
     width: fit-content;
     position: static;
     max-width: 240px;
-  }
+ }
   
   .input-box label.text {
     font-size: 0.75rem;
@@ -220,3 +226,4 @@ p, ul {
   .input-box input[type=text].input:focus {
     outline: none;
   }
+

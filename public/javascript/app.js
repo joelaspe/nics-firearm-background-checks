@@ -89,7 +89,7 @@ function newRecord() {
     
     const inputTotals = document.createElement("input");
     inputTotals.id = "input-totals";
-    inputToatls.classList.add("input-box")
+    inputTotals.classList.add("input-box")
     const labelTotals = document.createElement("label");
     labelTotals.htmlFor = "input-totals";
     labelTotals.textContent = "Totals";
