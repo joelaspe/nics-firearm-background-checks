@@ -53,6 +53,7 @@ function newRecord() {
 
     const inputMonthYear = document.createElement("input");
     inputMonthYear.id = "input-month-year";
+    inputMonthYear.classList.add("input-box")
     const labelMonthYear = document.createElement("label");
     labelMonthYear.htmlFor = "input-month-year";
     labelMonthYear.textContent = "Year/Month";
@@ -61,6 +62,7 @@ function newRecord() {
 
     const inputPermits = document.createElement("input");
     inputPermits.id = "input-permits";
+    inputPermits.classList.add("input-box")
     const labelPermits = document.createElement("label");
     labelPermits.htmlFor = "input-permits";
     labelPermits.textContent = "Permits";
@@ -69,6 +71,7 @@ function newRecord() {
 
     const inputHandgun = document.createElement("input");
     inputHandgun.id = "input-handgun";
+    inputHandgun.classList.add("input-box")
     const labelHandgun = document.createElement("label");
     labelHandgun.htmlFor = "input-handgun";
     labelHandgun.textContent = "Handguns"
@@ -77,6 +80,7 @@ function newRecord() {
 
     const inputLongGun = document.createElement("input");
     inputLongGun.id = "input-long-gun";
+    inputLongGun.classList.add("input-box")
     const labelLongGun = document.createElement("label");
     labelLongGun.htmlFor = "input-long-gun";
     labelLongGun.textContent = "Long Guns";
@@ -85,6 +89,7 @@ function newRecord() {
     
     const inputTotals = document.createElement("input");
     inputTotals.id = "input-totals";
+    inputToatls.classList.add("input-box")
     const labelTotals = document.createElement("label");
     labelTotals.htmlFor = "input-totals";
     labelTotals.textContent = "Totals";
@@ -163,6 +168,7 @@ function generateCheckForm(data) {
     const inputId = document.createElement("input");
     inputId.defaultValue = data.id;
     inputId.id = "input-id";
+    inputId.classList.add("input-box")
     const labelId = document.createElement("label");
     labelId.htmlFor = "input-id";
     labelId.textContent = "Record #";
@@ -172,6 +178,7 @@ function generateCheckForm(data) {
     const inputMonthYear = document.createElement("input");
     inputMonthYear.defaultValue = data.month_year;
     inputMonthYear.id = "input-month-year";
+    inputMonthYear.classList.add("input-box")
     const labelMonthYear = document.createElement("label");
     labelMonthYear.htmlFor = "input-month-year";
     labelMonthYear.textContent = "Year/Month";
@@ -181,6 +188,7 @@ function generateCheckForm(data) {
     const inputPermits = document.createElement("input");
     inputPermits.defaultValue = data.permit;
     inputPermits.id = "input-permits";
+    inputPermits.classList.add("input-box")
     const labelPermits = document.createElement("label");
     labelPermits.htmlFor = "input-permits";
     labelPermits.textContent = "Permits";
@@ -190,6 +198,7 @@ function generateCheckForm(data) {
     const inputHandgun = document.createElement("input");
     inputHandgun.defaultValue = data.handgun;
     inputHandgun.id = "input-handgun";
+    inputHandgun.classList.add("input-box")
     const labelHandgun = document.createElement("label");
     labelHandgun.htmlFor = "input-handgun";
     labelHandgun.textContent = "Handguns"
@@ -199,6 +208,7 @@ function generateCheckForm(data) {
     const inputLongGun = document.createElement("input");
     inputLongGun.defaultValue = data.long_gun;
     inputLongGun.id = "input-long-gun";
+    inputLongGun.classList.add("input-box")
     const labelLongGun = document.createElement("label");
     labelLongGun.htmlFor = "input-long-gun";
     labelLongGun.textContent = "Long Guns";
@@ -208,6 +218,7 @@ function generateCheckForm(data) {
     const inputTotals = document.createElement("input");
     inputTotals.defaultValue = data.totals;
     inputTotals.id = "input-totals";
+    inputTotals.classList.add("input-box")
     const labelTotals = document.createElement("label");
     labelTotals.htmlFor = "input-totals";
     labelTotals.textContent = "Totals";

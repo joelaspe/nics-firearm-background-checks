@@ -2,24 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>NICS Background Checks</title>
+  <title>NICS Background Check Database</title>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <meta name="description" content=""/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@200&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet"> 
   <link rel="stylesheet" type="text/css" href="stylesheets/style.css"/>
   <link rel="icon" href="images/favicon.png">
 </head>
 <body>
     <header class="primary-header">
-        <h1>NICS FBI Firearm Background Checks</h1>
+        <h1>NICS FBI Firearm Background Check Database</h1>
     </header>
-    <div class="result-container" id="result-container">
+    <div class="state-image-container" id="image-container">
         <img class="header-image" id="state-image" src="images/maps/united-states-map.jpeg" alt="U.S. Map">
-        <h3 class="container-title" id="container-title">May 2023 Firearm Background Checks - All U.S. States and Territories</h3>
-        <button class="nav-btn" id="home-btn">Home Page</button>
-        <button class="nav-btn" id="new-btn">New Record</button>
-        <button class="nav-btn" id="cancel-btn">Back to State</button>
-        <button class="nav-btn" id="delete-btn">Delete Record</button>
-        <button class="nav-btn" id="submit-btn">Submit</button>    
+        <div class="column-b">
+            <h3 class="container-title" id="container-title">May 2023 Firearm Background Checks - All U.S. States and Territories</h3>
+            <button class="nav-btn" id="home-btn">Home Page</button>
+            <button class="nav-btn" id="new-btn">New Record</button>
+            <button class="nav-btn" id="cancel-btn">Back to State</button>
+            <button class="nav-btn" id="delete-btn">Delete Record</button>
+            <button class="nav-btn" id="submit-btn">Submit</button>
+        </div>
+    </div>
+    <div class="result-container" id="result-container">
         <table class="table" id="checks-table">
             <tbody class="table-body" id="checks-table-body">
             </tbody>
